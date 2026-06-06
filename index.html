@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VUNA-Calc | Veritas University</title>
+  <link rel="stylesheet" href="src/style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>VUNA-Calc</h1>
+    <p>Veritas University · SEN 482 DevOps CA</p>
+  </header>
+
+  <main>
+    <div class="calc-card">
+
+      <!-- Display -->
+      <div class="display-wrap">
+        <div id="expr-line"></div>
+        <div id="display">0</div>
+      </div>
+
+      <!-- Button Grid: 4 columns -->
+      <!-- Row 1: AC  CE  /  * -->
+      <!-- Row 2: 7   8   9  - -->
+      <!-- Row 3: 4   5   6  + -->
+      <!-- Row 4: 1   2   3  = (rowspan 2) -->
+      <!-- Row 5: 0 (colspan 2)  .         -->
+      <div id="buttons">
+        <button class="ac"  data-action="ac">AC</button>
+        <button class="ce"  data-action="ce">CE</button>
+        <button class="op"  data-val="/">÷</button>
+        <button class="op"  data-val="*">×</button>
+
+        <button data-val="7">7</button>
+        <button data-val="8">8</button>
+        <button data-val="9">9</button>
+        <button class="op" data-val="-">−</button>
+
+        <button data-val="4">4</button>
+        <button data-val="5">5</button>
+        <button data-val="6">6</button>
+        <button class="op" data-val="+">+</button>
+
+        <button data-val="1">1</button>
+        <button data-val="2">2</button>
+        <button data-val="3">3</button>
+        <button class="eq" data-action="equals" style="grid-row: span 2">=</button>
+
+        <button data-val="0" style="grid-column: span 2">0</button>
+        <button data-val=".">.</button>
+      </div>
+
+      <!-- Custom Feature: What % is X of Y? -->
+      <div class="pct-panel">
+        <h2>% of Calculator</h2>
+        <div class="pct-row">
+          <input type="number" id="pct-part"  placeholder="Part" />
+          <span>is ?% of</span>
+          <input type="number" id="pct-total" placeholder="Total" />
+          <button id="pct-calc-btn">Go</button>
+        </div>
+        <div id="pct-result"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>CI/CD pipeline · GitHub Actions · Docker · FTP Deploy</footer>
+
+  <!-- Load engine first, then UI wiring -->
+  <script src="src/calculator.js"></script>
+  <script src="src/ui.js"></script>
+
+</body>
+</html>
