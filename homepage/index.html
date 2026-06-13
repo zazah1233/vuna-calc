@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEN 482 DevOps CA — Victor Hassan Funom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:       #07090f;
+      --surface:  #0d1117;
+      --border:   #1e2733;
+      --accent:   #58a6ff;
+      --green:    #3fb950;
+      --orange:   #f0883e;
+      --text:     #e6edf3;
+      --muted:    #6e7f96;
+      --mono:     'Share Tech Mono', monospace;
+      --sans:     'Syne', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Grid background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(88,166,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(88,166,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    /* ── Top badge ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(88,166,255,0.08);
+      border: 1px solid rgba(88,166,255,0.2);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      margin-bottom: 40px;
+    }
+
+    .badge-dot {
+      width: 7px; height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+
+    /* ── Hero ── */
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    /* ── Student card ── */
+    .student-card {
+      display: inline-grid;
+      grid-template-columns: auto auto;
+      gap: 4px 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 16px 24px;
+      margin-bottom: 56px;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+    }
+
+    .student-card .label { color: var(--muted); }
+    .student-card .value { color: var(--text); font-weight: 600; }
+
+    /* ── CTA button ── */
+    .cta-wrap { margin-bottom: 64px; }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: #07090f;
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.15s, transform 0.15s;
+      letter-spacing: 0.01em;
+    }
+
+    .cta:hover { background: #79b8ff; transform: translateY(-1px); }
+
+    .cta-arrow {
+      font-size: 1.1rem;
+      transition: transform 0.15s;
+    }
+
+    .cta:hover .cta-arrow { transform: translateX(3px); }
+
+    /* ── Section title ── */
+    .section-title {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    /* ── Pipeline diagram ── */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 56px;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .pipe-step {
+      flex: 1;
+      min-width: 140px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      position: relative;
+    }
+
+    .pipe-step .pipe-icon {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .pipe-step .pipe-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .pipe-step .pipe-desc {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .pipe-step.green  { border-top: 2px solid var(--green); }
+    .pipe-step.blue   { border-top: 2px solid var(--accent); }
+    .pipe-step.orange { border-top: 2px solid var(--orange); }
+
+    .pipe-arrow {
+      color: var(--muted);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      padding: 0 2px;
+    }
+
+    /* ── Checklist ── */
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 10px;
+      margin-bottom: 56px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
+    .check-item .tick {
+      color: var(--green);
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Tech stack ── */
+    .stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 64px;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: var(--surface);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .pipe-arrow { display: none; }
+      .student-card { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Badge -->
+  <div class="badge">
+    <span class="badge-dot"></span>
+    PIPELINE ACTIVE · DEPLOYED VIA CI/CD
+  </div>
+
+  <!-- Hero -->
+  <p class="hero-label">SEN 482 — DevOps Continuous Assessment</p>
+  <h1>VUNA-<span>Calc</span><br>CI/CD Pipeline</h1>
+  <p class="subtitle">
+    A fully automated build, test, and deployment pipeline using<br>
+    GitHub Actions · Docker Hub · FTP Deploy · CyberPanel
+  </p>
+
+  <!-- Student card -->
+  <div class="student-card">
+    <span class="label">Name</span>
+    <span class="value">Victor Hassan Funom</span>
+    <span class="label">Matric No.</span>
+    <span class="value">VUG/SEN/22/7856</span>
+    <span class="label">Course</span>
+    <span class="value">SEN 482 — DevOps</span>
+    <span class="label">Institution</span>
+    <span class="value">Veritas University, Abuja</span>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-wrap">
+    <a href="/calc" class="cta">
+      Launch Calculator
+      <span class="cta-arrow">→</span>
+    </a>
+  </div>
+
+  <!-- Pipeline -->
+  <p class="section-title">// CI/CD Pipeline — 3 Jobs</p>
+  <div class="pipeline">
+    <div class="pipe-step green">
+      <span class="pipe-icon">🧪</span>
+      <div class="pipe-name">Lint &amp; Test</div>
+      <div class="pipe-desc">ESLint · Jest<br>13 tests · Coverage</div>
+    </div>
+    <span class="pipe-arrow">→</span>
+    <div class="pipe-step blue">
+      <span class="pipe-icon">🐳</span>
+      <div class="pipe-name">Docker Build &amp; Push</div>
+      <div class="pipe-desc">Multi-stage image<br>Pushed to Docker Hub</div>
+    </div>
+    <span class="pipe-arrow">→</span>
+    <div class="pipe-step orange">
+      <span class="pipe-icon">🚀</span>
+      <div class="pipe-name">Deploy via FTP</div>
+      <div class="pipe-desc">Auto-deploy to<br>hassan.vudse26.cloud</div>
+    </div>
+  </div>
+
+  <!-- Checklist -->
+  <p class="section-title">// Deliverables</p>
+  <div class="checklist">
+    <div class="check-item"><span class="tick">[✓]</span> Calculator with digits, operators, AC, CE</div>
+    <div class="check-item"><span class="tick">[✓]</span> Custom feature — % of Calculator</div>
+    <div class="check-item"><span class="tick">[✓]</span> Jest automated tests — 13 passing</div>
+    <div class="check-item"><span class="tick">[✓]</span> ESLint — 0 errors, 0 warnings</div>
+    <div class="check-item"><span class="tick">[✓]</span> Multi-stage Dockerfile</div>
+    <div class="check-item"><span class="tick">[✓]</span> Docker image on Docker Hub</div>
+    <div class="check-item"><span class="tick">[✓]</span> GitHub Actions — 3-job pipeline</div>
+    <div class="check-item"><span class="tick">[✓]</span> FTP auto-deploy on every git push</div>
+    <div class="check-item"><span class="tick">[✓]</span> Live site on CyberPanel subdomain</div>
+  </div>
+
+  <!-- Stack -->
+  <p class="section-title">// Tech Stack</p>
+  <div class="stack">
+    <span class="tag">Node.js 20</span>
+    <span class="tag">Jest</span>
+    <span class="tag">ESLint</span>
+    <span class="tag">Docker</span>
+    <span class="tag">nginx:alpine</span>
+    <span class="tag">GitHub Actions</span>
+    <span class="tag">Docker Hub</span>
+    <span class="tag">FTP Deploy</span>
+    <span class="tag">CyberPanel</span>
+    <span class="tag">HTML5 / CSS3 / Vanilla JS</span>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <span>VUG/SEN/22/7856 · Victor Hassan Funom</span>
+    <span>Veritas University Abuja · SEN 482 DevOps · 2026</span>
+  </footer>
+
+</div>
+</body>
+</html>
